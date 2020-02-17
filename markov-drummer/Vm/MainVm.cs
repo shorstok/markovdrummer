@@ -5,39 +5,15 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Serialization;
-using markov_drummer.Config;
 using markov_drummer.Properties;
 using markov_drummer.Vm.NoteMappers;
 
 namespace markov_drummer.Vm
 {
-    [DataContract]
-    public class UiSettings : GlobalSettings<UiSettings>
-    {
-        [DataMember]
-        public string SourcePath { get;set; }
-
-        [DataMember]
-        [DefaultGlobalSettingValue(2)]
-        public int MarkovOrder { get; set; }
-
-        [DataMember]
-        [DefaultGlobalSettingValue(true)]
-        public bool TreatNotesInMetre { get; set; }
-
-        [DataMember]
-        public Guid SelectedMappingId { get; set; }
-
-        [DataMember]
-        public string TargetPath { get; set; }
-    }
-
-    
     public class MainVm : INotifyPropertyChanged, INotifyDataErrorInfo 
     {
         private NoteMappingBase _selectedNoteMapping;        
