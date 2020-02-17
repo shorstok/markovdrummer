@@ -1,6 +1,6 @@
 theme: jekyll-theme-slate
-title: TKG Trekplanner - trekking route parameters calculator
-description: Программка для расчета горного похода (tkg trekplanner)
+title: Markov drummer - Markov chain-based drum pattern generator
+description: Markov chain-based drum pattern generator
 show_downloads: true
 
 share-links-active:
@@ -9,5 +9,5 @@ share-links-active:
   linkedin: true
 
 github:
-  zip_url: https://shorstok.github.io/trk/trk-release.zip
-  tar_url: https://shorstok.github.io/trk/trk-release.zip
+  zip_url: https://shorstok.github.io/markovdrummer/md.zip
+  tar_url: https://shorstok.github.io/markovdrummer/md.zip
