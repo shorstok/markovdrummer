@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,12 +27,20 @@ namespace markov_drummer
         private readonly MainVm _viewmodel;
 
         public MainWindow()
-        {
+        {            
             _viewmodel = new MainVm();
 
             DataContext = _viewmodel;
 
             InitializeComponent();
+            AddVersionToTitle();
+        }
+
+        private void AddVersionToTitle()
+        {
+            var ver = Assembly.GetEntryAssembly()?.GetName().Version;
+            
+            Title = $"Markov Drummer generator by Shorstok {ver?.Major}.{ver?.Minor}.{ver?.Revision}";
         }
 
         protected override void OnClosing(CancelEventArgs e)

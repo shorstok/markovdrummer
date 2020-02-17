@@ -19,8 +19,7 @@ namespace markov_drummer.Vm
 {
     public partial class MainVm : INotifyPropertyChanged, INotifyDataErrorInfo 
     {
-        private NoteMappingBase _selectedNoteMapping;
-        private bool _openTargetFolderOnSuccess;
+        private NoteMappingBase _selectedNoteMapping;      
 
         public MidiProcessorVm Processor { get; }
 
