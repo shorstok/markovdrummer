@@ -100,6 +100,7 @@
     <Compile Include="Vm\DelegateCommand.cs" />
     <Compile Include="Vm\MainVm.Errors.cs" />
     <Compile Include="Vm\MidiProcessorVm.Errors.cs" />
+    <Compile Include="Vm\NoteMappers\AvailableMappersProvider.cs" />
     <Compile Include="Vm\NoteMappers\EzDrummerNoteValueMapping.cs" />
     <Compile Include="Vm\MainVm.cs" />
     <Compile Include="Vm\MidiProcessorVm.cs" />

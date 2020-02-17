@@ -69,14 +69,8 @@ namespace markov_drummer.Vm
         }
 
         [XmlIgnore]
-        public NoteMappingBase[] AvailableNoteMappings { get; } = {
-            new NoteValueMapping(),
-            new EzDrummerNoteValueMapping(),
-            new VelSensitiveEzDrummerNoteValueMapping()
-        };
-
+        public NoteMappingBase[] AvailableNoteMappings { get; } 
         
-
         public NoteMappingBase SelectedNoteMapping
         {
             get => _selectedNoteMapping;
@@ -97,6 +91,7 @@ namespace markov_drummer.Vm
 
         public MainVm()
         {
+            AvailableNoteMappings = AvailableMappersProvider.GetAllMappings().ToArray();
             Processor = new MidiProcessorVm(this);
             SelectedNoteMapping = AvailableNoteMappings.FirstOrDefault(nm => nm.Id == UiSettings.Current.SelectedMappingId) ??
                                   AvailableNoteMappings.FirstOrDefault();
