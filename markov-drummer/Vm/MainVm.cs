@@ -95,6 +95,7 @@ namespace markov_drummer.Vm
         public NoteMappingBase[] AvailableNoteMappings { get; } = {
             new NoteValueMapping(),
             new EzDrummerNoteValueMapping(),
+            new VelSensitiveEzDrummerNoteValueMapping()
         };
 
         

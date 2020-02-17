@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using markov_drummer.Vm.NoteMappers;
-using Melanchall.DryWetMidi.Common;
 using Melanchall.DryWetMidi.Interaction;
 
-namespace markov_drummer.Vm
+namespace markov_drummer.Vm.NoteMappers
 {
     public class EzDrummerNoteValueMapping : NoteMappingBase
     {

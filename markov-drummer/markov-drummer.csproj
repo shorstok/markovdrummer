@@ -91,11 +91,12 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Annotations1.cs" />
     <Compile Include="Vm\DelegateCommand.cs" />
-    <Compile Include="Vm\EzDrummerNoteValueMapping.cs" />
+    <Compile Include="Vm\NoteMappers\EzDrummerNoteValueMapping.cs" />
     <Compile Include="Vm\MainVm.cs" />
     <Compile Include="Vm\MidiProcessorVm.cs" />
     <Compile Include="Vm\NoteMappers\NoteMappingBase.cs" />
     <Compile Include="Vm\NoteMappers\NoteValueMapping.cs" />
+    <Compile Include="Vm\NoteMappers\VelSensitiveEzDrummerNoteValueMapping.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
