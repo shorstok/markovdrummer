@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using markov_drummer.Markov.Chiscore;
 using markov_drummer.Vm.NoteMappers;
+using Melanchall.DryWetMidi.Common;
 using Melanchall.DryWetMidi.Interaction;
 
 namespace markov_drummer.Markov
@@ -9,6 +10,8 @@ namespace markov_drummer.Markov
     {
         private readonly TempoMap _tempoMap;
         private readonly NoteMappingBase _noteMapping;
+
+        private readonly SourceEntropyPool Pool = new SourceEntropyPool();
 
         public MarkovPercussionModel(int level, TempoMap tempoMap, NoteMappingBase noteMapping) : base(level)
         {
@@ -23,7 +26,11 @@ namespace markov_drummer.Markov
                 var note = phrase[i];
                 var next = i == phrase.Length-1 ? phrase[0]: phrase[i+1];
 
-                yield return new MarkovNoteToken(note,next,_noteMapping);
+                var markovNoteToken = new MarkovNoteToken(note,next,_noteMapping, _tempoMap);
+
+                Pool.AddTokenToPool(markovNoteToken,note);
+
+                yield return markovNoteToken;
             }
         }
 
@@ -37,9 +44,10 @@ namespace markov_drummer.Markov
                 if(markovNoteToken.IsEmpty)
                     continue;
 
-                var clone = markovNoteToken.Source.Clone();
+                var clone = Pool.GetFromPool(markovNoteToken);                
 
                 clone.Time = position;
+                clone.Channel = (FourBitNumber) 0;
                 position += markovNoteToken.DurationWithSilence;
 
                 result.Add(clone);

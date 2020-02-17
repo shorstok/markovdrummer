@@ -7,18 +7,18 @@ namespace markov_drummer.Markov
 {
     public class MarkovNoteToken : IEquatable<MarkovNoteToken>, IComparable<MarkovNoteToken>, IComparable
     {
-        public Note Source { get; }
+        public TempoMap TargetTempoMap { get; }
 
         public long SignificantMatchingId { get; }
 
-        public static MarkovNoteToken Empty { get; } = new MarkovNoteToken(null, null, null){ IsEmpty = true};
+        public static MarkovNoteToken Empty { get; } = new MarkovNoteToken(null, null, null, null){ IsEmpty = true};
         
         public bool IsEmpty { get; private set; }
         public long DurationWithSilence { get;  }
 
-        public MarkovNoteToken(Note current, Note next, NoteMappingBase noteMapping)
+        public MarkovNoteToken(Note current, Note next, NoteMappingBase noteMapping, TempoMap targetTempoMap)
         {
-            Source = current;
+            TargetTempoMap = targetTempoMap;
 
             if (next != null && current != null)
             {
@@ -26,7 +26,7 @@ namespace markov_drummer.Markov
 
                 DurationWithSilence = Math.Max(DurationWithSilence, current.Length);
 
-                SignificantMatchingId = noteMapping.GetNoteHash(current, next);
+                SignificantMatchingId = noteMapping.GetNoteHash(this, current, next);
             }
         }
 

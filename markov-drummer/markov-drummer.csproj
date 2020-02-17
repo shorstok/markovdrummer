@@ -95,6 +95,7 @@
     <Compile Include="Markov\Chiscore\Models\StateStatistic.cs" />
     <Compile Include="Markov\MarkovNoteToken.cs" />
     <Compile Include="Markov\MarkovPercussionModel.cs" />
+    <Compile Include="Markov\SourceEntropyPool.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Annotations1.cs" />
     <Compile Include="Services\AvailableUnigramSelectorsProvider.cs" />
@@ -108,6 +109,8 @@
     <Compile Include="Vm\MidiProcessorVm.cs" />
     <Compile Include="Vm\NoteMappers\NoteMappingBase.cs" />
     <Compile Include="Vm\NoteMappers\NoteValueMapping.cs" />
+    <Compile Include="Vm\NoteMappers\OnlyDurationMapping.cs" />
+    <Compile Include="Vm\NoteMappers\OnlyVelocityMapping.cs" />
     <Compile Include="Vm\NoteMappers\VelRestSensitiveEzDrummerNoteValueMapping.cs" />
     <Compile Include="Vm\NoteMappers\VelSensitiveEzDrummerNoteValueMapping.cs" />
     <Compile Include="Vm\UiSettings.cs" />

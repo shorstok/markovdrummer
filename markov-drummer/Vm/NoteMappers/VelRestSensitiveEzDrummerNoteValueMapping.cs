@@ -1,4 +1,5 @@
 ﻿using System;
+using markov_drummer.Markov;
 using Melanchall.DryWetMidi.Interaction;
 
 namespace markov_drummer.Vm.NoteMappers
@@ -8,11 +9,16 @@ namespace markov_drummer.Vm.NoteMappers
         public override Guid Id { get; } = Guid.Parse("F7900536-18FD-45EA-97B5-B207255B2D3D");
 
         public override string Name { get; } = "Vel-Time-Sensitive Toontrack (SD / EZD)";
-        public override string Description { get; } = "Same as Toontrak (using Superior Drummer / EZDrummer keymapping), but tokens are also velocity-range sensitive and time-sensitive";
-        
-        public override long GetNoteHash(Note current, Note next)
+        public override string Description { get; } = "Same as Toontrak (using Superior Drummer / EZDrummer keymapping), but tokens are also velocity-range sensitive and note length-sensitive";
+
+        private long _quantizeDuration = 0;
+
+        public override long GetNoteHash(MarkovNoteToken sourceToken, Note current, Note next)
         {
-            var hash = base.GetNoteHash(current, next);
+            if (0 == _quantizeDuration)
+                _quantizeDuration = TimeConverter.ConvertFrom(new MusicalTimeSpan(1, 32), sourceToken.TargetTempoMap);
+
+            var hash = base.GetNoteHash(sourceToken, current, next);
 
             hash <<= 4;
 
@@ -20,11 +26,14 @@ namespace markov_drummer.Vm.NoteMappers
 
             hash <<= 4;
 
-            var delta = next?.Time - current.Time;
+            var delta = sourceToken.DurationWithSilence;
 
-            delta = Math.Max(delta??0, current.Length);
+            delta = Math.Max(delta, current.Length);
 
-            hash |= delta.Value;
+            delta /= _quantizeDuration;
+
+            hash |= delta;
+            
 
             return hash;
         }

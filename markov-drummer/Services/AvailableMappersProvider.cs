@@ -11,6 +11,8 @@ namespace markov_drummer.Services
             yield return new VelSensitiveEzDrummerNoteValueMapping();
             yield return new EzDrummerNoteValueMapping();
             yield return new NoteValueMapping();
+            yield return new OnlyVelocityMapping();
+            yield return new OnlyDurationMapping();
         }
     }
 }

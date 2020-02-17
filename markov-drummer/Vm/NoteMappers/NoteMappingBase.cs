@@ -1,4 +1,5 @@
 ﻿using System;
+using markov_drummer.Markov;
 using Melanchall.DryWetMidi.Interaction;
 
 namespace markov_drummer.Vm.NoteMappers
@@ -40,6 +41,6 @@ namespace markov_drummer.Vm.NoteMappers
         public abstract string Name { get; }
         public abstract string Description { get; }
 
-        public abstract long GetNoteHash(Note current, Note next);
+        public abstract long GetNoteHash(MarkovNoteToken sourceToken, Note current, Note next);
     }
 }

@@ -21,6 +21,11 @@
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontWeight" Value="Light"/>
         </Style>
+        <Style x:Key="InfoBlock" TargetType="TextBlock">
+            <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+            <Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.Accent2}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
     </mah:MetroWindow.Resources>
     <Grid Margin="{StaticResource ControlMargin}">
 
@@ -29,6 +34,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -62,8 +68,8 @@
 
         <mah:ToggleSwitch Grid.Row="4" Grid.Column="0" 
                           IsChecked="{Binding TreatNotesInMetre}"
-                          OnLabel="Treat note durations in metre (e.g. bring all source files to one tempo)" 
-                          OffLabel="Treat note durations as time (leave sources at their tempos)" 
+                          OnLabel="Treat note length in metre (e.g. bring all source files to one tempo)" 
+                          OffLabel="Treat note length as time (leave sources at their tempos)" 
                           Margin="{StaticResource ControlMargin}"/>
 
         <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Section}" Text="Note mapping"/>
@@ -77,10 +83,11 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        
-        <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Section}" Text="Unigram selector"/>
+        <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource InfoBlock}" Text="{Binding SelectedNoteMapping.Description}"/>
 
-        <ComboBox Grid.Row="8" Grid.ColumnSpan="2" Grid.Column="0" Margin="{StaticResource ControlMargin}"
+        <TextBlock Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Section}" Text="Unigram selector"/>
+
+        <ComboBox Grid.Row="9" Grid.ColumnSpan="2" Grid.Column="0" Margin="{StaticResource ControlMargin}"
                   SelectedItem="{Binding ActiveUnigramSelector}" ItemsSource="{Binding AvailableUnigramSelectors}">
             <ComboBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type components:UnigramSelectorBase}">
@@ -90,36 +97,36 @@
         </ComboBox>
 
 
-        <TextBlock Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Section}" Text="Output folder"/>
+        <TextBlock Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Section}" Text="Output folder"/>
 
-        <TextBox Grid.Row="10" Grid.Column="0" mah:TextBoxHelper.Watermark="Where to put results" Margin="{StaticResource ControlMargin}" Text="{Binding TargetFolderPath}"/>
-        <Button Grid.Row="10" Grid.Column="1" Margin="{StaticResource ControlMargin}" Content="..." Command="{Binding LocateTargetCommand}"/>
+        <TextBox Grid.Row="11" Grid.Column="0" mah:TextBoxHelper.Watermark="Where to put results" Margin="{StaticResource ControlMargin}" Text="{Binding TargetFolderPath}"/>
+        <Button Grid.Row="11" Grid.Column="1" Margin="{StaticResource ControlMargin}" Content="..." Command="{Binding LocateTargetCommand}"/>
 
-        <mah:ToggleSwitch Grid.Row="11" Grid.Column="0" 
+        <mah:ToggleSwitch Grid.Row="12" Grid.Column="0" 
                           IsChecked="{Binding OpenTargetFolderOnSuccess}"
                           OnLabel="Open output folder on success" 
                           OffLabel="Dont open output folder on success" 
                           Margin="{StaticResource ControlMargin}"/>
 
-        <TextBlock Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2" Text="Source files will be (re)loaded"
+        <TextBlock Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" Text="Source files will be (re)loaded"
                    Margin="{StaticResource ControlMargin}"
                    Foreground="{StaticResource MahApps.Brushes.Accent2}"
                    mah:VisibilityHelper.IsVisible="{Binding Processor.ForceReloadSources}" />
-        <TextBlock Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" Text="Markov chain will be regenerated"
+        <TextBlock Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="2" Text="Markov chain will be regenerated"
                    Margin="{StaticResource ControlMargin}"
                    Foreground="{StaticResource MahApps.Brushes.Accent2}"
                    mah:VisibilityHelper.IsVisible="{Binding Processor.ForceRegenerateChain}" />
 
-        <Button Grid.Row="14" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Right"
+        <Button Grid.Row="15" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Right"
                 Command="{Binding Start}"
                 Margin="{StaticResource ControlMargin}" FontSize="24" MinWidth="100" FontWeight="Normal">
             GO!
         </Button>
 
-        <TextBlock Grid.Row="15" Grid.ColumnSpan="2" Grid.Column="0"
+        <TextBlock Grid.Row="16" Grid.ColumnSpan="2" Grid.Column="0"
                    mah:VisibilityHelper.IsVisible="{Binding Processor.IsGenerationInProgress}" Margin="{StaticResource ControlMargin}" TextWrapping="Wrap" Text="{Binding Processor.Status}"/>
 
-        <mah:MetroProgressBar Grid.Row="16" Grid.ColumnSpan="2" 
+        <mah:MetroProgressBar Grid.Row="17" Grid.ColumnSpan="2" 
                               mah:VisibilityHelper.IsVisible="{Binding Processor.IsGenerationInProgress}" 
                               Grid.Column="0" Height="32" Maximum="1" Minimum="0" Value="{Binding Processor.ProgressValue}"></mah:MetroProgressBar>
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using markov_drummer.Markov;
 using Melanchall.DryWetMidi.Interaction;
 
 namespace markov_drummer.Vm.NoteMappers
@@ -40,7 +41,7 @@ namespace markov_drummer.Vm.NoteMappers
             }
         }
 
-        public override long GetNoteHash(Note current, Note next)
+        public override long GetNoteHash(MarkovNoteToken sourceToken, Note current, Note next)
         {
             if (ReductionMapping.TryGetValue(current.NoteNumber, out var replacement))
                 return replacement;

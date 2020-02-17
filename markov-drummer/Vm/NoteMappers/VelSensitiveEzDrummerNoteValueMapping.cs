@@ -1,4 +1,5 @@
 ﻿using System;
+using markov_drummer.Markov;
 using Melanchall.DryWetMidi.Interaction;
 
 namespace markov_drummer.Vm.NoteMappers
@@ -10,9 +11,9 @@ namespace markov_drummer.Vm.NoteMappers
         public override string Name { get; } = "Vel-Sensitive Toontrack (SD / EZD)";
         public override string Description { get; } = "Same as Toontrak (using Superior Drummer / EZDrummer keymapping), but tokens are also velocity-range sensitive";
         
-        public override long GetNoteHash(Note current, Note next)
+        public override long GetNoteHash(MarkovNoteToken sourceToken, Note current, Note next)
         {
-            var hash = base.GetNoteHash(current, next);
+            var hash = base.GetNoteHash(sourceToken, current, next);
 
             hash <<= 4;
 
