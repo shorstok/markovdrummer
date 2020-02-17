@@ -106,6 +106,7 @@
     <Compile Include="Vm\MidiProcessorVm.cs" />
     <Compile Include="Vm\NoteMappers\NoteMappingBase.cs" />
     <Compile Include="Vm\NoteMappers\NoteValueMapping.cs" />
+    <Compile Include="Vm\NoteMappers\VelRestSensitiveEzDrummerNoteValueMapping.cs" />
     <Compile Include="Vm\NoteMappers\VelSensitiveEzDrummerNoteValueMapping.cs" />
     <Compile Include="Vm\UiSettings.cs" />
     <Page Include="MainWindow.xaml">

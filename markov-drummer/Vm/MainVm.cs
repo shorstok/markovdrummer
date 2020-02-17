@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -17,7 +18,8 @@ namespace markov_drummer.Vm
 {
     public partial class MainVm : INotifyPropertyChanged, INotifyDataErrorInfo 
     {
-        private NoteMappingBase _selectedNoteMapping;        
+        private NoteMappingBase _selectedNoteMapping;
+        private bool _openTargetFolderOnSuccess;
 
         public MidiProcessorVm Processor { get; }
 
@@ -89,6 +91,18 @@ namespace markov_drummer.Vm
         
         public ICommand Start { get; }
 
+
+        public bool OpenTargetFolderOnSuccess
+        {
+            get => UiSettings.Current.OpenTargetFolderOnSuccess;
+            set
+            {
+                if (value == UiSettings.Current.OpenTargetFolderOnSuccess) return;
+                UiSettings.Current.OpenTargetFolderOnSuccess = value;
+                OnPropertyChanged();
+            }
+        }
+
         public MainVm()
         {
             AvailableNoteMappings = AvailableMappersProvider.GetAllMappings().ToArray();
@@ -141,7 +155,17 @@ namespace markov_drummer.Vm
             if(!Validate())
                 return;
 
-            await Processor.WorkMarkov();
+            var resultingFilename = await Processor.WorkMarkov();
+
+            if (!string.IsNullOrWhiteSpace(resultingFilename) && OpenTargetFolderOnSuccess)
+            {
+                var info = new ProcessStartInfo
+                {
+                    FileName = "explorer",
+                    Arguments = $"/e, /select, \"{resultingFilename}\""
+                };
+                Process.Start(info);                
+            }
         }
 
         private bool Validate()

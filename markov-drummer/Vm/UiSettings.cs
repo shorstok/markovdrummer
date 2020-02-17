@@ -23,5 +23,9 @@ namespace markov_drummer.Vm
 
         [DataMember]
         public string TargetPath { get; set; }
+
+        [DataMember]
+        [DefaultGlobalSettingValue(true)]
+        public bool OpenTargetFolderOnSuccess { get; set; }
     }
 }

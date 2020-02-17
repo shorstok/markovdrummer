@@ -39,7 +39,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="0*" />
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Section}" Text="Source files location"/>
@@ -76,17 +77,22 @@
         <TextBox Grid.Row="8" Grid.Column="0" mah:TextBoxHelper.Watermark="Where to put results" Margin="{StaticResource ControlMargin}" Text="{Binding TargetFolderPath}"/>
         <Button Grid.Row="8" Grid.Column="1" Margin="{StaticResource ControlMargin}" Content="..." Command="{Binding LocateTargetCommand}"/>
 
+        <mah:ToggleSwitch Grid.Row="9" Grid.Column="0" 
+                          IsChecked="{Binding OpenTargetFolderOnSuccess}"
+                          OnLabel="Open target folder on success" 
+                          OffLabel="Dont open target folder on success" 
+                          Margin="{StaticResource ControlMargin}"/>
 
-        <Button Grid.Row="9" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Right"
+        <Button Grid.Row="10" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Right"
                 Command="{Binding Start}"
                 Margin="{StaticResource ControlMargin}" FontSize="24" MinWidth="100" FontWeight="Normal">
             GO!
         </Button>
-        
-        <TextBlock Grid.Row="10" Grid.ColumnSpan="2" Grid.Column="0"
+
+        <TextBlock Grid.Row="11" Grid.ColumnSpan="2" Grid.Column="0"
                    mah:VisibilityHelper.IsVisible="{Binding Processor.IsGenerationInProgress}" Margin="{StaticResource ControlMargin}" TextWrapping="Wrap" Text="{Binding Processor.Status}"/>
-        
-        <mah:MetroProgressBar Grid.Row="11" Grid.ColumnSpan="2" 
+
+        <mah:MetroProgressBar Grid.Row="12" Grid.ColumnSpan="2" 
                               mah:VisibilityHelper.IsVisible="{Binding Processor.IsGenerationInProgress}" 
                               Grid.Column="0" Height="32" Maximum="1" Minimum="0" Value="{Binding Processor.ProgressValue}"></mah:MetroProgressBar>
 

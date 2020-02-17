@@ -13,6 +13,7 @@ namespace markov_drummer.Vm.NoteMappers
             yield return new NoteValueMapping();
             yield return new EzDrummerNoteValueMapping();
             yield return new VelSensitiveEzDrummerNoteValueMapping();
+            yield return new VelRestSensitiveEzDrummerNoteValueMapping();
         }
     }
 }

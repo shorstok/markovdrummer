@@ -14,9 +14,9 @@ namespace markov_drummer.Vm.NoteMappers
         {
             var hash = base.GetNoteHash(current, next);
 
-            hash *= 128;
+            hash <<= 4;
 
-            hash += (current.Velocity) / 42;    //Split in 3 sections
+            hash += (current.Velocity) / 18;    //Split in 7 sections
 
             return hash;
         }

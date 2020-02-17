@@ -128,7 +128,7 @@ namespace markov_drummer.Vm
             return result;
         }
 
-        public async Task WorkMarkov()
+        public async Task<string> WorkMarkov()
         {
             try
             {
@@ -180,11 +180,14 @@ namespace markov_drummer.Vm
                 midiFile.Write(target);
                 Status = $"Result OK, in {target}";
 
+                return target;
             }
             catch (Exception e)
             {
                 Status = "Failure: " + e.Message;
             }
+
+            return null;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
