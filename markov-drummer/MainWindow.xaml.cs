@@ -40,7 +40,7 @@ namespace markov_drummer
         {
             var ver = Assembly.GetEntryAssembly()?.GetName().Version;
             
-            Title = $"Markov Drummer generator by Shorstok {ver?.Major}.{ver?.Minor}.{ver?.Revision}";
+            Title = $"Markov Drummer generator by Shorstok [{ver?.Major}.{ver?.Minor}.{ver?.Revision}]";
         }
 
         protected override void OnClosing(CancelEventArgs e)
