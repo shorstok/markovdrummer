@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using markov_drummer.Markov.Chiscore.Components;
 
 namespace markov_drummer.Vm
 {
@@ -28,6 +29,8 @@ namespace markov_drummer.Vm
         }
 
         public bool HasErrors => _errorsDictionary.Any();
+        
+
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         protected virtual void OnErrorsChanged(DataErrorsChangedEventArgs e)

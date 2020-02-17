@@ -7,6 +7,7 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:vm="clr-namespace:markov_drummer.Vm"
         xmlns:noteMappers="clr-namespace:markov_drummer.Vm.NoteMappers"
+        xmlns:components="clr-namespace:markov_drummer.Markov.Chiscore.Components"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"         
         SizeToContent="Height"                
@@ -28,6 +29,8 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -74,36 +77,49 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Section}" Text="Output folder"/>
+        
+        <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Section}" Text="Unigram selector"/>
 
-        <TextBox Grid.Row="8" Grid.Column="0" mah:TextBoxHelper.Watermark="Where to put results" Margin="{StaticResource ControlMargin}" Text="{Binding TargetFolderPath}"/>
-        <Button Grid.Row="8" Grid.Column="1" Margin="{StaticResource ControlMargin}" Content="..." Command="{Binding LocateTargetCommand}"/>
+        <ComboBox Grid.Row="8" Grid.ColumnSpan="2" Grid.Column="0" Margin="{StaticResource ControlMargin}"
+                  SelectedItem="{Binding ActiveUnigramSelector}" ItemsSource="{Binding AvailableUnigramSelectors}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type components:UnigramSelectorBase}">
+                    <TextBlock Text="{Binding Name}"></TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
-        <mah:ToggleSwitch Grid.Row="9" Grid.Column="0" 
+
+        <TextBlock Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Section}" Text="Output folder"/>
+
+        <TextBox Grid.Row="10" Grid.Column="0" mah:TextBoxHelper.Watermark="Where to put results" Margin="{StaticResource ControlMargin}" Text="{Binding TargetFolderPath}"/>
+        <Button Grid.Row="10" Grid.Column="1" Margin="{StaticResource ControlMargin}" Content="..." Command="{Binding LocateTargetCommand}"/>
+
+        <mah:ToggleSwitch Grid.Row="11" Grid.Column="0" 
                           IsChecked="{Binding OpenTargetFolderOnSuccess}"
                           OnLabel="Open output folder on success" 
                           OffLabel="Dont open output folder on success" 
                           Margin="{StaticResource ControlMargin}"/>
 
-        <TextBlock Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Text="Source files will be (re)loaded"
+        <TextBlock Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2" Text="Source files will be (re)loaded"
                    Margin="{StaticResource ControlMargin}"
                    Foreground="{StaticResource MahApps.Brushes.Accent2}"
                    mah:VisibilityHelper.IsVisible="{Binding Processor.ForceReloadSources}" />
-        <TextBlock Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" Text="Markov chain will be regenerated"
+        <TextBlock Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" Text="Markov chain will be regenerated"
                    Margin="{StaticResource ControlMargin}"
                    Foreground="{StaticResource MahApps.Brushes.Accent2}"
                    mah:VisibilityHelper.IsVisible="{Binding Processor.ForceRegenerateChain}" />
 
-        <Button Grid.Row="12" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Right"
+        <Button Grid.Row="14" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Right"
                 Command="{Binding Start}"
                 Margin="{StaticResource ControlMargin}" FontSize="24" MinWidth="100" FontWeight="Normal">
             GO!
         </Button>
 
-        <TextBlock Grid.Row="13" Grid.ColumnSpan="2" Grid.Column="0"
+        <TextBlock Grid.Row="15" Grid.ColumnSpan="2" Grid.Column="0"
                    mah:VisibilityHelper.IsVisible="{Binding Processor.IsGenerationInProgress}" Margin="{StaticResource ControlMargin}" TextWrapping="Wrap" Text="{Binding Processor.Status}"/>
 
-        <mah:MetroProgressBar Grid.Row="14" Grid.ColumnSpan="2" 
+        <mah:MetroProgressBar Grid.Row="16" Grid.ColumnSpan="2" 
                               mah:VisibilityHelper.IsVisible="{Binding Processor.IsGenerationInProgress}" 
                               Grid.Column="0" Height="32" Maximum="1" Minimum="0" Value="{Binding Processor.ProgressValue}"></mah:MetroProgressBar>
 

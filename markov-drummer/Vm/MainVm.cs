@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Serialization;
+using markov_drummer.Markov.Chiscore.Components;
 using markov_drummer.Properties;
 using markov_drummer.Services;
 using markov_drummer.Vm.NoteMappers;
@@ -73,6 +74,10 @@ namespace markov_drummer.Vm
         [XmlIgnore]
         public NoteMappingBase[] AvailableNoteMappings { get; } 
         
+        [XmlIgnore]
+        public UnigramSelectorBase[] AvailableUnigramSelectors { get; } 
+
+
         public NoteMappingBase SelectedNoteMapping
         {
             get => _selectedNoteMapping;
@@ -85,6 +90,20 @@ namespace markov_drummer.Vm
                 OnPropertyChanged();
             }
         }
+
+        public UnigramSelectorBase ActiveUnigramSelector
+        {
+            get => Processor.ActiveUnigramSelector;
+            set
+            {
+                if (Equals(value, Processor.ActiveUnigramSelector)) return;
+                Processor.ActiveUnigramSelector = value;
+                UiSettings.Current.ActiveUnigramSelectorId  = value?.Id ?? Guid.Empty;
+                Processor.ForceRegenerateChain = true;
+                OnPropertyChanged();
+            }
+        }
+
         
         public ICommand LocateSourceCommand { get; }
         public ICommand LocateTargetCommand { get; }
@@ -106,9 +125,14 @@ namespace markov_drummer.Vm
         public MainVm()
         {
             AvailableNoteMappings = AvailableMappersProvider.GetAllMappings().ToArray();
+            AvailableUnigramSelectors = AvailableUnigramSelectorsProvider.GetUnigramSelectors().ToArray();
+
             Processor = new MidiProcessorVm(this);
             SelectedNoteMapping = AvailableNoteMappings.FirstOrDefault(nm => nm.Id == UiSettings.Current.SelectedMappingId) ??
                                   AvailableNoteMappings.FirstOrDefault();
+
+            ActiveUnigramSelector = AvailableUnigramSelectors.FirstOrDefault(nm => nm.Id == UiSettings.Current.ActiveUnigramSelectorId) ??
+                                    AvailableUnigramSelectors.FirstOrDefault();
 
             if (string.IsNullOrWhiteSpace(TargetFolderPath))
                 TargetFolderPath = Directory.GetCurrentDirectory();

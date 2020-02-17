@@ -27,5 +27,8 @@ namespace markov_drummer.Vm
         [DataMember]
         [DefaultGlobalSettingValue(true)]
         public bool OpenTargetFolderOnSuccess { get; set; }
+
+        [DataMember]
+        public Guid ActiveUnigramSelectorId { get; set; }
     }
 }

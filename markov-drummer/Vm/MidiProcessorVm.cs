@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using markov_drummer.Annotations;
 using markov_drummer.Markov;
+using markov_drummer.Markov.Chiscore.Components;
 using markov_drummer.Vm.NoteMappers;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Interaction;
@@ -27,6 +28,8 @@ namespace markov_drummer.Vm
         private bool _forceReloadSources;
         private bool _forceRegenerateChain;
         private MarkovPercussionModel _model;
+
+        public UnigramSelectorBase ActiveUnigramSelector { get; set; }
 
         public bool ForceRegenerateChain
         {
@@ -162,6 +165,7 @@ namespace markov_drummer.Vm
                         _model = new MarkovPercussionModel(_owner.MarkovOrder, ResultingTempoMap,
                             _owner.SelectedNoteMapping)
                         {
+                            UnigramSelector = ActiveUnigramSelector as IUnigramSelector<MarkovNoteToken> ?? new WeightedRandomUnigramSelector<MarkovNoteToken>(),
                             EnsureUniqueWalk = true
                         };
 
