@@ -78,7 +78,7 @@
 
 
         <Button Grid.Row="9" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Right"
-                Command="{Binding Processor.Start}"
+                Command="{Binding Start}"
                 Margin="{StaticResource ControlMargin}" FontSize="24" MinWidth="100" FontWeight="Normal">
             GO!
         </Button>

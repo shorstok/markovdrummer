@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -15,7 +16,7 @@ using Melanchall.DryWetMidi.Interaction;
 
 namespace markov_drummer.Vm
 {
-    public class MidiProcessorVm : INotifyPropertyChanged
+    public partial class MidiProcessorVm : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         private readonly MainVm _owner;
         private string _status;
@@ -63,7 +64,6 @@ namespace markov_drummer.Vm
 
         public bool IsGenerationInProgress => !string.IsNullOrWhiteSpace(Status);
 
-        public ICommand Start { get; }
 
         public double ProgressValue
         {
@@ -79,7 +79,7 @@ namespace markov_drummer.Vm
         public MidiProcessorVm(MainVm owner)
         {
             _owner = owner;
-            Start = new DelegateCommand(t=> !string.IsNullOrWhiteSpace(_owner.SourceFolderPath), async o => await WorkMarkov());
+            
         }
 
         private  List<Note> LoadSources()
@@ -144,9 +144,9 @@ namespace markov_drummer.Vm
                     ForceReloadSources = false;
                 }
 
-                if(!_sourceNotes.Any())
+                if (!_sourceNotes.Any())
                     throw new Exception("No source found! Please specify folder with midi files");
-            
+
                 using (var notesManager = trackChunk.ManageNotes())
                 {
                     if (_model == null || ForceRegenerateChain)
@@ -194,5 +194,7 @@ namespace markov_drummer.Vm
         {         
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
     }
 }

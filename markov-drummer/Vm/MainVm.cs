@@ -14,7 +14,7 @@ using markov_drummer.Vm.NoteMappers;
 
 namespace markov_drummer.Vm
 {
-    public class MainVm : INotifyPropertyChanged, INotifyDataErrorInfo 
+    public partial class MainVm : INotifyPropertyChanged, INotifyDataErrorInfo 
     {
         private NoteMappingBase _selectedNoteMapping;        
 
@@ -88,11 +88,11 @@ namespace markov_drummer.Vm
                 OnPropertyChanged();
             }
         }
-
         
-
         public ICommand LocateSourceCommand { get; }
         public ICommand LocateTargetCommand { get; }
+        
+        public ICommand Start { get; }
 
         public MainVm()
         {
@@ -102,22 +102,32 @@ namespace markov_drummer.Vm
 
             if (string.IsNullOrWhiteSpace(TargetFolderPath))
                 TargetFolderPath = Directory.GetCurrentDirectory();
-        }
-        
-        public IEnumerable GetErrors(string propertyName)
-        {
-            yield break;
+
+            Start = new DelegateCommand(t=> !string.IsNullOrWhiteSpace(SourceFolderPath), async o => await RunGenerator());
         }
 
-        public bool HasErrors { get; } = false;
+        private async Task RunGenerator()
+        {            
+            if(!Validate())
+                return;
 
-        
+            await Processor.WorkMarkov();
+        }
 
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
-
-        protected virtual void OnErrorsChanged(DataErrorsChangedEventArgs e)
+        private bool Validate()
         {
-            ErrorsChanged?.Invoke(this, e);
+            ClearAllErrors();
+
+            if(string.IsNullOrWhiteSpace(TargetFolderPath) || !Directory.Exists(TargetFolderPath))
+                SetErrorFor(nameof(TargetFolderPath),"Please, specify valid target folder");
+
+            if(string.IsNullOrWhiteSpace(SourceFolderPath) || !Directory.Exists(SourceFolderPath))
+                SetErrorFor(nameof(SourceFolderPath),"Please, specify valid source folder");
+
+            if(null == SelectedNoteMapping)
+                SetErrorFor(nameof(SelectedNoteMapping),"Please, select note mapping");
+
+            return !HasErrors;
         }
 
         public void Shutdown()
