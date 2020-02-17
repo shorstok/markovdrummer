@@ -14,7 +14,7 @@ namespace markov_drummer.Markov.Chiscore.Models
             {
                 Value = a.Key,
                 Count = a.Count(),
-                Probability = Math.Round(((double)a.Count() / (double)groupedValues.Sum(x => x.Count())) * 100, 2)
+                Probability = Math.Round(a.Count() / (double) groupedValues.Sum(x => x.Count()) * 100, 2)
             }).OrderByDescending(x => x.Probability);
         }
 

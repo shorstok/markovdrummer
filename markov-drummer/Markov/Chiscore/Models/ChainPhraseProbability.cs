@@ -11,12 +11,12 @@ namespace markov_drummer.Markov.Chiscore.Models
         }
 
         /// <summary>
-        /// The probability for this phrase to match the chain, a double between 0 and 1
+        ///     The probability for this phrase to match the chain, a double between 0 and 1
         /// </summary>
-        public double Probability => (double)Raw.Count(a => a.MatchesChain) / Raw.Count;
+        public double Probability => (double) Raw.Count(a => a.MatchesChain) / Raw.Count;
 
         /// <summary>
-        /// The raw ngrams in the phrase, and whether they each match or not
+        ///     The raw ngrams in the phrase, and whether they each match or not
         /// </summary>
         public List<NgramChainMatch<T>> Raw { get; }
     }

@@ -166,7 +166,7 @@ namespace markov_drummer.Vm
                             _owner.SelectedNoteMapping)
                         {
                             UnigramSelector = ActiveUnigramSelector as IUnigramSelector<MarkovNoteToken> ?? new WeightedRandomUnigramSelector<MarkovNoteToken>(),
-                            EnsureUniqueWalk = true
+                            //EnsureUniqueWalk = true
                         };
 
                         Status = "Training markov chain...";

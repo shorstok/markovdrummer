@@ -6,16 +6,17 @@ namespace markov_drummer.Markov.Chiscore.Models
 {
     public class MarkovChain<T>
     {
+        private readonly object _lockObj = new object();
+
         public MarkovChain()
         {
             ChainDictionary = new ConcurrentDictionary<NgramContainer<T>, List<T>>();
         }
 
         internal ConcurrentDictionary<NgramContainer<T>, List<T>> ChainDictionary { get; }
-        private readonly object _lockObj = new object();
 
         /// <summary>
-        /// The number of states in the chain
+        ///     The number of states in the chain
         /// </summary>
         public int Count => ChainDictionary.Count;
 
@@ -23,9 +24,9 @@ namespace markov_drummer.Markov.Chiscore.Models
         {
             return ChainDictionary.ContainsKey(key);
         }
-        
+
         /// <summary>
-        /// Add a TGram to the markov models store with a composite key of the previous [Level] number of TGrams
+        ///     Add a TGram to the markov models store with a composite key of the previous [Level] number of TGrams
         /// </summary>
         /// <param name="key">The composite key under which to add the TGram value</param>
         /// <param name="value">The value to add to the store</param>
@@ -34,19 +35,15 @@ namespace markov_drummer.Markov.Chiscore.Models
             lock (_lockObj)
             {
                 if (!ChainDictionary.ContainsKey(key))
-                {
-                    ChainDictionary.TryAdd(key, new List<T> { value });
-                }
+                    ChainDictionary.TryAdd(key, new List<T> {value});
                 else
-                {
                     ChainDictionary[key].Add(value);
-                }
             }
         }
 
         internal List<T> GetValuesForKey(NgramContainer<T> key)
         {
-            return ChainDictionary[key];
+            return !ChainDictionary.TryGetValue(key, out var value) ? new List<T>() : value;
         }
 
         internal IEnumerable<StateStatistic<T>> GetStatistics()

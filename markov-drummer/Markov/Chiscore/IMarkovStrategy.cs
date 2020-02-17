@@ -11,17 +11,17 @@ namespace markov_drummer.Markov.Chiscore
         Type PhraseType { get; }
 
         IEnumerable<TUnigram> SplitTokens(TPhrase input);
-        
+
         TPhrase RebuildPhrase(IEnumerable<TUnigram> tokens);
 
         void Learn(IEnumerable<TPhrase> phrases, bool ignoreAlreadyLearnt = true);
-        
+
         void Learn(TPhrase phrase);
-        
+
         void Retrain(int newLevel);
-        
+
         IEnumerable<TPhrase> Walk(int lines = 1, TPhrase seed = default(TPhrase));
-        
+
         List<TUnigram> GetMatches(TPhrase input);
 
         TUnigram GetTerminatorUnigram();

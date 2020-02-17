@@ -2,7 +2,7 @@
 
 namespace markov_drummer.Markov.Chiscore.Components
 {
-    public interface IUnigramSelector <TUnigram>
+    public interface IUnigramSelector<TUnigram>
     {
         TUnigram SelectUnigram(IEnumerable<TUnigram> ngrams);
     }
