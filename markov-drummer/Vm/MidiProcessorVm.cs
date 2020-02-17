@@ -35,6 +35,10 @@ namespace markov_drummer.Vm
             {
                 if (value == _forceRegenerateChain) return;
                 _forceRegenerateChain = value;
+
+                if (value)
+                    Status = null;
+
                 OnPropertyChanged();
             }
         }
@@ -46,6 +50,10 @@ namespace markov_drummer.Vm
             {
                 if (value == _forceReloadSources) return;
                 _forceReloadSources = value;
+
+                if (value)
+                    Status = null;
+
                 OnPropertyChanged();
             }
         }
@@ -84,7 +92,7 @@ namespace markov_drummer.Vm
 
         private  List<Note> LoadSources()
         {
-            ForceRegenerateChain = true;
+            _model = null;
             var result = new List<Note>();
 
             var sourceFiles = Directory.GetFiles(_owner.SourceFolderPath,"*.mid");

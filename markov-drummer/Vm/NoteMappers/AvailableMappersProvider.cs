@@ -10,10 +10,10 @@ namespace markov_drummer.Vm.NoteMappers
     {
         public static IEnumerable<NoteMappingBase> GetAllMappings()
         {
-            yield return new NoteValueMapping();
-            yield return new EzDrummerNoteValueMapping();
-            yield return new VelSensitiveEzDrummerNoteValueMapping();
             yield return new VelRestSensitiveEzDrummerNoteValueMapping();
+            yield return new VelSensitiveEzDrummerNoteValueMapping();
+            yield return new EzDrummerNoteValueMapping();
+            yield return new NoteValueMapping();
         }
     }
 }

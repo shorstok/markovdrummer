@@ -117,6 +117,8 @@ namespace markov_drummer.Vm
             
             LocateSourceCommand = new DelegateCommand(t=> true, SelectSourceFolder);
             LocateTargetCommand = new DelegateCommand(t=> true, SelectTargetFolder);
+
+            Processor.ForceRegenerateChain = false;
         }
 
         private void SelectTargetFolder(object obj)

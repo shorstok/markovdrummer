@@ -40,7 +40,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="0*" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Section}" Text="Source files location"/>
@@ -79,20 +81,29 @@
 
         <mah:ToggleSwitch Grid.Row="9" Grid.Column="0" 
                           IsChecked="{Binding OpenTargetFolderOnSuccess}"
-                          OnLabel="Open target folder on success" 
-                          OffLabel="Dont open target folder on success" 
+                          OnLabel="Open output folder on success" 
+                          OffLabel="Dont open output folder on success" 
                           Margin="{StaticResource ControlMargin}"/>
 
-        <Button Grid.Row="10" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Right"
+        <TextBlock Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Text="Source files will be (re)loaded"
+                   Margin="{StaticResource ControlMargin}"
+                   Foreground="{StaticResource MahApps.Brushes.Accent2}"
+                   mah:VisibilityHelper.IsVisible="{Binding Processor.ForceReloadSources}" />
+        <TextBlock Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" Text="Markov chain will be regenerated"
+                   Margin="{StaticResource ControlMargin}"
+                   Foreground="{StaticResource MahApps.Brushes.Accent2}"
+                   mah:VisibilityHelper.IsVisible="{Binding Processor.ForceRegenerateChain}" />
+
+        <Button Grid.Row="12" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Right"
                 Command="{Binding Start}"
                 Margin="{StaticResource ControlMargin}" FontSize="24" MinWidth="100" FontWeight="Normal">
             GO!
         </Button>
 
-        <TextBlock Grid.Row="11" Grid.ColumnSpan="2" Grid.Column="0"
+        <TextBlock Grid.Row="13" Grid.ColumnSpan="2" Grid.Column="0"
                    mah:VisibilityHelper.IsVisible="{Binding Processor.IsGenerationInProgress}" Margin="{StaticResource ControlMargin}" TextWrapping="Wrap" Text="{Binding Processor.Status}"/>
 
-        <mah:MetroProgressBar Grid.Row="12" Grid.ColumnSpan="2" 
+        <mah:MetroProgressBar Grid.Row="14" Grid.ColumnSpan="2" 
                               mah:VisibilityHelper.IsVisible="{Binding Processor.IsGenerationInProgress}" 
                               Grid.Column="0" Height="32" Maximum="1" Minimum="0" Value="{Binding Processor.ProgressValue}"></mah:MetroProgressBar>
 
