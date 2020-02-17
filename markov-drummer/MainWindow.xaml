@@ -1,12 +1,95 @@
-﻿<Window x:Class="markov_drummer.MainWindow"
+﻿<mah:MetroWindow x:Class="markov_drummer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:markov_drummer"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:vm="clr-namespace:markov_drummer.Vm"
+        xmlns:noteMappers="clr-namespace:markov_drummer.Vm.NoteMappers"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        WindowStartupLocation="CenterScreen"         
+        SizeToContent="Height"                
+        d:DataContext="{d:DesignInstance vm:MainVm}"
+        Title="Markov Drummer generator by Shorstok" Height="Auto" Width="800">
+    <mah:MetroWindow.Resources>
+        <Style x:Key="Section" TargetType="TextBlock">
+            <Setter Property="Margin" Value="{StaticResource ControlMargin}"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.Accent}"></Setter>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Light"/>
+        </Style>
+    </mah:MetroWindow.Resources>
+    <Grid Margin="{StaticResource ControlMargin}">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Section}" Text="Source files location"/>
+        <TextBox Grid.Row="1" Grid.Column="0" mah:TextBoxHelper.Watermark="Source MIDI files folder path" Margin="{StaticResource ControlMargin}" Text="{Binding SourceFolderPath}"/>
+        <Button Grid.Row="1" Grid.Column="1" Margin="{StaticResource ControlMargin}" Content="..." Command="{Binding LocateSourceCommand}"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Section}" Text="Markov chain order"/>
+
+        <Slider mah:SliderHelper.EnableMouseWheel="MouseHover" TickFrequency="1" IsSnapToTickEnabled="True"
+                Grid.Row="3" Grid.Column="0" Minimum="1" Maximum="100" Value="{Binding MarkovOrder}"
+                Margin="{StaticResource ControlMargin}" Name="MarkovChainOrderSlider" />
+
+        <TextBlock Grid.Row="3" Grid.Column="1" Margin="{StaticResource ControlMargin}" Text="{Binding ElementName=MarkovChainOrderSlider, Path=Value}"/>
+
+        <mah:ToggleSwitch Grid.Row="4" Grid.Column="0" 
+                          IsChecked="{Binding TreatNotesInMetre}"
+                          OnLabel="Treat note durations in metre (e.g. bring all source files to one tempo)" 
+                          OffLabel="Treat note durations as time (leave sources at their tempos)" 
+                          Margin="{StaticResource ControlMargin}"/>
+
+        <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Section}" Text="Note mapping"/>
+
+        <ComboBox Grid.Row="6" Grid.ColumnSpan="2" Grid.Column="0" Margin="{StaticResource ControlMargin}"
+                  SelectedItem="{Binding SelectedNoteMapping}" ItemsSource="{Binding AvailableNoteMappings}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type noteMappers:NoteMappingBase}">
+                    <TextBlock Text="{Binding Name}"></TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Section}" Text="Output folder"/>
+
+        <TextBox Grid.Row="8" Grid.Column="0" mah:TextBoxHelper.Watermark="Where to put results" Margin="{StaticResource ControlMargin}" Text="{Binding TargetFolderPath}"/>
+        <Button Grid.Row="8" Grid.Column="1" Margin="{StaticResource ControlMargin}" Content="..." Command="{Binding LocateTargetCommand}"/>
+
+
+        <Button Grid.Row="9" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Right"
+                Command="{Binding Processor.Start}"
+                Margin="{StaticResource ControlMargin}" FontSize="24" MinWidth="100" FontWeight="Normal">
+            GO!
+        </Button>
         
+        <TextBlock Grid.Row="10" Grid.ColumnSpan="2" Grid.Column="0"
+                   mah:VisibilityHelper.IsVisible="{Binding Processor.IsGenerationInProgress}" Margin="{StaticResource ControlMargin}" TextWrapping="Wrap" Text="{Binding Processor.Status}"/>
+        
+        <mah:MetroProgressBar Grid.Row="11" Grid.ColumnSpan="2" 
+                              mah:VisibilityHelper.IsVisible="{Binding Processor.IsGenerationInProgress}" 
+                              Grid.Column="0" Height="32" Maximum="1" Minimum="0" Value="{Binding Processor.ProgressValue}"></mah:MetroProgressBar>
+
     </Grid>
-</Window>
+</mah:MetroWindow>
+
