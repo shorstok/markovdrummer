@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Serialization;
 using markov_drummer.Properties;
+using markov_drummer.Services;
 using markov_drummer.Vm.NoteMappers;
 
 namespace markov_drummer.Vm
@@ -104,6 +105,40 @@ namespace markov_drummer.Vm
                 TargetFolderPath = Directory.GetCurrentDirectory();
 
             Start = new DelegateCommand(t=> !string.IsNullOrWhiteSpace(SourceFolderPath), async o => await RunGenerator());
+            
+            LocateSourceCommand = new DelegateCommand(t=> true, SelectSourceFolder);
+            LocateTargetCommand = new DelegateCommand(t=> true, SelectTargetFolder);
+        }
+
+        private void SelectTargetFolder(object obj)
+        {
+            var seed = TargetFolderPath;
+
+            if (string.IsNullOrWhiteSpace(seed) || !Directory.Exists(seed))
+                seed = null;
+
+            var resultingPath = FolderSelectorService.SelectFolder("Pick folder to place results", seed);
+
+            if (resultingPath != null)
+                TargetFolderPath = resultingPath;
+        }
+
+        private void SelectSourceFolder(object obj)
+        {
+            var seed = SourceFolderPath;
+
+            if (string.IsNullOrWhiteSpace(seed) || !Directory.Exists(seed))
+                seed = null;
+
+            var resultingPath = FolderSelectorService.SelectFolder("Pick folder with source MIDI files", seed);
+
+            if (resultingPath != null)
+            {
+                SourceFolderPath = resultingPath;
+
+                if(!Directory.GetFiles(SourceFolderPath,"*.mid").Any())
+                    SetErrorFor(nameof(SourceFolderPath),"No MIDI files in this folder!");
+            }
         }
 
         private async Task RunGenerator()
@@ -123,6 +158,8 @@ namespace markov_drummer.Vm
 
             if(string.IsNullOrWhiteSpace(SourceFolderPath) || !Directory.Exists(SourceFolderPath))
                 SetErrorFor(nameof(SourceFolderPath),"Please, specify valid source folder");
+            else if(!Directory.GetFiles(SourceFolderPath,"*.mid").Any())
+                SetErrorFor(nameof(SourceFolderPath),"No MIDI files in this folder!");
 
             if(null == SelectedNoteMapping)
                 SetErrorFor(nameof(SelectedNoteMapping),"Please, select note mapping");
